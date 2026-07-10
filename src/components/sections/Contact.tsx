@@ -2,15 +2,58 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, Download } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, Download, Loader2 } from 'lucide-react';
 import { BlurReveal } from '@/components/ui/BlurReveal';
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    comment: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (error) setError('');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          comment: formData.comment.trim(),
+          source: 'Контактная форма Арти Парк',
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Ошибка сервера');
+      }
+
+      setSubmitted(true);
+      // Сбрасываем форму
+      setFormData({ name: '', phone: '', comment: '' });
+    } catch (err) {
+      console.error(err);
+      setError('Не удалось отправить заявку. Попробуйте ещё раз.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,10 +92,14 @@ export function Contact() {
                     <input
                       required
                       type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder="Иван Иванов"
                       className="w-full bg-ocean-deep/50 border border-white/10 rounded-xl px-4 py-3.5 text-milk placeholder:text-milk/30 focus:border-gold/40 focus:outline-none transition-colors"
                     />
                   </div>
+
                   <div>
                     <label className="text-xs text-milk/40 uppercase tracking-wider mb-2 block">
                       Телефон
@@ -60,24 +107,52 @@ export function Contact() {
                     <input
                       required
                       type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
                       placeholder="+7 (___) ___-__-__"
                       className="w-full bg-ocean-deep/50 border border-white/10 rounded-xl px-4 py-3.5 text-milk placeholder:text-milk/30 focus:border-gold/40 focus:outline-none transition-colors"
                     />
                   </div>
+
                   <div>
                     <label className="text-xs text-milk/40 uppercase tracking-wider mb-2 block">
                       Комментарий
                     </label>
                     <textarea
+                      name="comment"
+                      value={formData.comment}
+                      onChange={handleChange}
                       rows={3}
                       placeholder="Интересует квартира с видом на море..."
                       className="w-full bg-ocean-deep/50 border border-white/10 rounded-xl px-4 py-3.5 text-milk placeholder:text-milk/30 focus:border-gold/40 focus:outline-none transition-colors resize-none"
                     />
                   </div>
-                  <button type="submit" className="btn-luxury-primary w-full">
-                    Отправить заявку
+
+                  {error && <p className="text-red-400 text-sm">{error}</p>}
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="btn-luxury-primary w-full flex items-center justify-center gap-2 disabled:opacity-70"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        Отправляем...
+                      </>
+                    ) : (
+                      <>
+                        Отправить заявку
+                        <Send size={18} />
+                      </>
+                    )}
                   </button>
-                  <a href="#" className="btn-luxury-outline w-full text-center flex items-center justify-center gap-2">
+
+                  <a
+                    href="#"
+                    className="btn-luxury-outline w-full text-center flex items-center justify-center gap-2"
+                  >
                     <Download size={16} /> Скачать презентацию
                   </a>
                 </>
@@ -85,6 +160,7 @@ export function Contact() {
             </form>
           </BlurReveal>
 
+          {/* Правая колонка (контакты + карта) — без изменений */}
           <BlurReveal direction="right" delay={0.15}>
             <div className="space-y-6">
               {[
