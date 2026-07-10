@@ -57,6 +57,33 @@ const statusColors = {
   sold: 'bg-red-500/20 border-red-500/40 text-red-400',
 };
 
+// Компонент для отображения реальной планировки (PNG)
+function ApartmentPlanImage({ 
+  apartment, 
+  className = "" 
+}: { 
+  apartment: Apartment; 
+  className?: string;
+}) {
+  const imageSrc = `/textures/${apartment.number}.png`;
+  const fallbackSrc = "/textures/placeholder-plan.png";
+
+  return (
+    <img
+      src={imageSrc}
+      alt={`Планировка квартиры №${apartment.number}`}
+      onError={(e) => {
+        // Если конкретная планировка не найдена — используем placeholder
+        (e.target as HTMLImageElement).src = fallbackSrc;
+      }}
+      className={cn(
+        "w-full h-full object-contain bg-ocean-deep/30 rounded-xl",
+        className
+      )}
+    />
+  );
+}
+
 function ApartmentModal({
   apartment,
   onClose,
@@ -110,8 +137,14 @@ function ApartmentModal({
             </span>
           </div>
 
-          <div className="bg-ocean-deep/50 rounded-xl p-6 mb-6 hover:scale-[1.02] transition-transform duration-500">
-            <FloorPlan area={apartment.area} rooms={apartment.rooms} />
+          {/* Большая планировка PNG */}
+          <div className="bg-ocean-deep/50 rounded-xl p-6 mb-6 hover:scale-[1.02] transition-transform duration-500 overflow-hidden">
+            <div className="aspect-[16/11] w-full relative">
+              <ApartmentPlanImage 
+                apartment={apartment} 
+                className="absolute inset-0" 
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-6">
@@ -195,8 +228,9 @@ function ApartmentCard({
           </span>
         </div>
 
-        <div className="h-36 mb-4 bg-ocean-deep/40 rounded-xl overflow-hidden group-hover:scale-[1.03] transition-transform duration-500">
-          <FloorPlan area={apartment.area} rooms={apartment.rooms} />
+        {/* Планировка PNG в карточке */}
+        <div className="h-36 mb-4 bg-ocean-deep/40 rounded-xl overflow-hidden group-hover:scale-[1.03] transition-transform duration-500 relative">
+          <ApartmentPlanImage apartment={apartment} />
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
