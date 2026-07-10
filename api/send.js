@@ -1,56 +1,61 @@
 export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      ok: false,
+      error: "Method not allowed",
+    });
+  }
 
-    if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method not allowed" });
-    }
+  const TOKEN = process.env.TOKEN;
+  const CHAT_ID = process.env.CHAT_ID;
 
-    const TOKEN = "8823578928:AAGpZ7X43buPYiJawsonKSZvApUPgKl2O1Q";
-    const CHAT_ID = "834950023";
+  if (!TOKEN || !CHAT_ID) {
+    return res.status(500).json({
+      ok: false,
+      error: "TOKEN or CHAT_ID is missing",
+    });
+  }
 
-    const {
-        name,
-        phone,
-        comment
-    } = req.body;
+  const { name, phone, comment } = req.body;
 
-    const text = `
+  const text = `
 🏠 Новая заявка
 
-👤 Имя: ${name}
+👤 Имя: ${name || "-"}
 
-📞 Телефон: ${phone}
+📞 Телефон: ${phone || "-"}
 
 💬 Комментарий: ${comment || "-"}
 `;
 
-    try {
+  try {
+    const response = await fetch(
+      `https://api.telegram.org/bot${TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text,
+        }),
+      }
+    );
 
-        const tg = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{
+    const data = await response.json();
 
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-                chat_id:CHAT_ID,
-                text:text
-            })
-
-        });
-
-        const data = await tg.json();
-
-        res.status(200).json(data);
-
-    } catch(e){
-
-        res.status(500).json({
-            ok:false,
-            error:e.message
-        });
-
+    if (!data.ok) {
+      return res.status(500).json(data);
     }
 
+    return res.status(200).json({
+      ok: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      error: error.message,
+    });
+  }
 }
