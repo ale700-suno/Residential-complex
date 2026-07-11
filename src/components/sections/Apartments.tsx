@@ -56,15 +56,15 @@ const statusColors = {
   sold: 'bg-red-500/20 border-red-500/40 text-red-400',
 };
 
-// ==================== ПЕРЕНУМЕРАЦИЯ И 50 КВАРТИР ====================
+// ==================== ПЕРЕНУМЕРАЦИЯ (50 квартир) ====================
 const renumberApartments = (aps: Apartment[]): Apartment[] => {
   return aps.map((apt, index) => ({
     ...apt,
-    number: index + 1, // 1 до 50
+    number: String(index + 1), // ← Исправлено: string
   }));
 };
 
-// Перенумерованный массив с 50 квартирами
+// Перенумерованный массив
 const numberedApartments = renumberApartments(apartments);
 
 function ApartmentPlanImage({ 
