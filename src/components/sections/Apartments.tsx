@@ -23,7 +23,6 @@ import {
   type Apartment,
   type RoomType,
 } from '@/data/apartments';
-import { FloorPlan } from '@/components/ui/FloorPlan';
 import { BlurReveal } from '@/components/ui/BlurReveal';
 import { cn } from '@/lib/utils';
 
@@ -57,7 +56,17 @@ const statusColors = {
   sold: 'bg-red-500/20 border-red-500/40 text-red-400',
 };
 
-// Компонент для отображения реальной планировки (PNG)
+// ==================== ПЕРЕНУМЕРАЦИЯ И 50 КВАРТИР ====================
+const renumberApartments = (aps: Apartment[]): Apartment[] => {
+  return aps.map((apt, index) => ({
+    ...apt,
+    number: index + 1, // 1 до 50
+  }));
+};
+
+// Перенумерованный массив с 50 квартирами
+const numberedApartments = renumberApartments(apartments);
+
 function ApartmentPlanImage({ 
   apartment, 
   className = "" 
@@ -73,7 +82,6 @@ function ApartmentPlanImage({
       src={imageSrc}
       alt={`Планировка квартиры №${apartment.number}`}
       onError={(e) => {
-        // Если конкретная планировка не найдена — используем placeholder
         (e.target as HTMLImageElement).src = fallbackSrc;
       }}
       className={cn(
@@ -137,7 +145,6 @@ function ApartmentModal({
             </span>
           </div>
 
-          {/* Большая планировка PNG */}
           <div className="bg-ocean-deep/50 rounded-xl p-6 mb-6 hover:scale-[1.02] transition-transform duration-500 overflow-hidden">
             <div className="aspect-[16/11] w-full relative">
               <ApartmentPlanImage 
@@ -228,7 +235,6 @@ function ApartmentCard({
           </span>
         </div>
 
-        {/* Планировка PNG в карточке */}
         <div className="h-36 mb-4 bg-ocean-deep/40 rounded-xl overflow-hidden group-hover:scale-[1.03] transition-transform duration-500 relative">
           <ApartmentPlanImage apartment={apartment} />
         </div>
@@ -289,7 +295,7 @@ function ChessBoard({
   onSelect: (a: Apartment) => void;
 }) {
   const floorApartments = useMemo(
-    () => apartments.filter((a) => a.building === building && a.floor === floor),
+    () => numberedApartments.filter((a) => a.building === building && a.floor === floor),
     [building, floor]
   );
 
@@ -391,7 +397,7 @@ export function Apartments() {
   const [chessFloor, setChessFloor] = useState(1);
 
   const filtered = useMemo(() => {
-    return apartments.filter((a) => {
+    return numberedApartments.filter((a) => {
       if (a.price < filters.priceMin || a.price > filters.priceMax) return false;
       if (a.area < filters.areaMin || a.area > filters.areaMax) return false;
       if (filters.floor !== null && a.floor !== filters.floor) return false;
@@ -412,7 +418,7 @@ export function Apartments() {
         <BlurReveal className="text-center mb-12">
           <p className="section-subtitle mb-4">Резиденции</p>
           <h2 className="section-title mb-4">
-            <span className="text-gradient-gold">32</span> эксклюзивные резиденции
+            <span className="text-gradient-gold">50</span> эксклюзивных резиденций
           </h2>
           <p className="text-milk/60 max-w-2xl mx-auto">
             Каждая квартира — уникальная планировка с панорамными видами на горы, лес и море
@@ -551,7 +557,7 @@ export function Apartments() {
         {/* View toggle */}
         <div className="flex items-center justify-between mb-8">
           <p className="text-milk/50 text-sm">
-            Найдено: <span className="text-gold">{filtered.length}</span> из 32
+            Найдено: <span className="text-gold">{filtered.length}</span> из 50
           </p>
           <div className="flex gap-2 glass rounded-lg p-1">
             <button

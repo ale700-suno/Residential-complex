@@ -33,7 +33,7 @@ export function StickyCTA() {
             <div className="container mx-auto px-4 md:px-8 py-3 flex items-center justify-between gap-4">
               <p className="text-sm text-milk/60 tracking-wide">
                 <span className="text-gold font-medium">ARTI PARK</span>
-                <span className="hidden lg:inline"> — 32 эксклюзивные резиденции у моря</span>
+                <span className="hidden lg:inline"> — 50 эксклюзивные резиденции у моря</span>
               </p>
               <div className="flex items-center gap-3">
                 {actions.map((action) => (
