@@ -9,7 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const distances = [
-  { value: '4 км', label: 'до моря', icon: MapPin },
+  { value: '7 км', label: 'до моря', icon: MapPin },
   { value: '500 м', label: 'до остановки', icon: Bus },
   { value: '2 км', label: 'до «Пятёрочки»', icon: ShoppingBag },
   { value: '800 м', label: 'до кафе', icon: Coffee },
@@ -53,7 +53,7 @@ export function Location() {
             <p className="section-subtitle mb-4">Расположение</p>
             <h2 className="section-title mb-6">
               Адлер,<br />
-              <span className="text-gradient-gold">ул. Лазурная Долина</span>
+              <span className="text-gradient-gold">ул. Лазурная Долина, д.198</span>
             </h2>
             <p className="text-milk/60 text-lg mb-8 leading-relaxed">
               Ровное место на границе национального парка. Конечная остановка

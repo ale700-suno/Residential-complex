@@ -17,34 +17,24 @@ const galleryItems = [
     category: 'Архитектура',
   },
   {
-    src: '/textures/comlexnight.png',
-    title: 'Ночная подсветка',
-    category: 'Атмосфера',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80',
+    src: '/textures/pool and terrace.png',
     title: 'Бассейн и терраса',
     category: 'Инфраструктура',
   },
   {
-    src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
+    src: '/textures/residence interior.png',
     title: 'Интерьер резиденции',
     category: 'Интерьеры',
   },
   {
-    src: 'https://images.unsplash.com/photo-1600607687939-ce8ab6b4c8b5?w=1200&q=80',
+    src: '/textures/panoramic view.png',
     title: 'Панорамный вид',
     category: 'Виды',
   },
   {
-    src: 'https://images.unsplash.com/photo-1600566753190-17f0baa5a6c3?w=1200&q=80',
-    title: 'Зона отдыха',
+    src: '/textures/backyard.png',
+    title: 'Задний двор',
     category: 'Территория',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600047509809-ba874a0a0a0a?w=1200&q=80',
-    title: 'Закат над горами',
-    category: 'Атмосфера',
   },
 ];
 

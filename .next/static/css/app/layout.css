@@ -1683,9 +1683,6 @@ video {
 .border-t {
   border-top-width: 1px;
 }
-.border-amber-500\/30 {
-  border-color: rgb(245 158 11 / 0.3);
-}
 .border-amber-500\/40 {
   border-color: rgb(245 158 11 / 0.4);
 }
@@ -1712,13 +1709,6 @@ video {
 }
 .border-white\/5 {
   border-color: rgb(255 255 255 / 0.05);
-}
-.bg-amber-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(245 158 11 / var(--tw-bg-opacity, 1));
-}
-.bg-amber-500\/10 {
-  background-color: rgb(245 158 11 / 0.1);
 }
 .bg-amber-500\/20 {
   background-color: rgb(245 158 11 / 0.2);
@@ -2319,10 +2309,6 @@ html.lenis body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.hover\:border-amber-500\/60:hover {
-  border-color: rgb(245 158 11 / 0.6);
-}
-
 .hover\:border-emerald-500\/60:hover {
   border-color: rgb(16 185 129 / 0.6);
 }
@@ -2341,6 +2327,10 @@ html.lenis body {
 
 .hover\:bg-gold\/10:hover {
   background-color: rgb(201 169 98 / 0.1);
+}
+
+.hover\:bg-white\/10:hover {
+  background-color: rgb(255 255 255 / 0.1);
 }
 
 .hover\:bg-white\/\[0\.02\]:hover {
@@ -2379,6 +2369,10 @@ html.lenis body {
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.active\:bg-white\/20:active {
+  background-color: rgb(255 255 255 / 0.2);
 }
 
 .disabled\:opacity-70:disabled {

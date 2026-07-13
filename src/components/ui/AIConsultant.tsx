@@ -72,7 +72,7 @@ export function AIConsultant() {
 
               <p className="text-milk/70 text-sm mb-4 leading-relaxed">
                 Расскажите, что для вас важно — вид, площадь, бюджет — и мы подберём
-                лучшие варианты из 50 резиденций.
+                лучшие варианты из 50 жилых помещений.
               </p>
 
               <div className="flex flex-wrap gap-2 mb-6">

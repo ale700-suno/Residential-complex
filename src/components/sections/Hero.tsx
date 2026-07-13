@@ -8,7 +8,7 @@ import { useCountUp } from '@/hooks/useCountUp';
 
 const stats = [
   { value: 5, suffix: ' мин', label: 'до моря' },
-  { value: 50, suffix: '', label: 'эксклюзивных резиденций' },
+  { value: 50, suffix: '', label: 'эксклюзивных жилых помещений' },
   { value: 360, suffix: '°', label: 'панорамные виды' },
 ];
 

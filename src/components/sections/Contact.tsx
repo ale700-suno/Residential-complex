@@ -179,7 +179,7 @@ export function Contact() {
                 {
                   icon: MapPin,
                   label: 'Адрес',
-                  value: 'г. Сочи, Адлер, ул. Лазурная Долина',
+                  value: 'г. Сочи, Адлер, ул. Лазурная Долина, д.198',
                   href: '#location',
                 },
               ].map((item) => (
