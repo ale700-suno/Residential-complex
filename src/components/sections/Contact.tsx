@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, Download, Loader2 } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, Send, Download, Loader2 } from 'lucide-react';
 import { BlurReveal } from '@/components/ui/BlurReveal';
 
 export function Contact() {
@@ -46,7 +46,6 @@ export function Contact() {
       }
 
       setSubmitted(true);
-      // Сбрасываем форму
       setFormData({ name: '', phone: '', comment: '' });
     } catch (err) {
       console.error(err);
@@ -55,6 +54,9 @@ export function Contact() {
       setLoading(false);
     }
   };
+
+  // Ссылка на группу Telegram с предзаполненным сообщением
+  const telegramLink = "https://t.me/artiparkresidentialcomplex?text=Здравствуйте!%20Меня%20заинтересовала%20квартира.%20Можно%20записаться%20на%20просмотр.";
 
   return (
     <section id="contact" className="section-padding relative overflow-hidden">
@@ -160,48 +162,53 @@ export function Contact() {
             </form>
           </BlurReveal>
 
-          {/* Правая колонка (контакты + карта) — без изменений */}
+          {/* Правая колонка (контакты + кнопка Telegram + карта) */}
           <BlurReveal direction="right" delay={0.15}>
             <div className="space-y-6">
-              {[
-                {
-                  icon: Phone,
-                  label: 'Телефон',
-                  value: '+7 (982) 488-02-83',
-                  href: 'tel:+79824880283',
-                },
-                {
-                  icon: Mail,
-                  label: 'Email',
-                  value: 'info@artipark.ru',
-                  href: 'mailto:info@artipark.ru',
-                },
-                {
-                  icon: MapPin,
-                  label: 'Адрес',
-                  value: 'г. Сочи, Адлер, ул. Лазурная Долина, д.198',
-                  href: '#location',
-                },
-              ].map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-start gap-4 glass rounded-xl p-5 hover:border-gold/20 transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">
-                    <item.icon size={20} className="text-gold" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-milk/40 uppercase tracking-wider mb-1">
-                      {item.label}
-                    </p>
-                    <p className="text-milk group-hover:text-gold transition-colors">
-                      {item.value}
-                    </p>
-                  </div>
-                </a>
-              ))}
+              {/* Телефон */}
+              <a
+                href="tel:+79824880283"
+                className="flex items-start gap-4 glass rounded-xl p-5 hover:border-gold/20 transition-all group"
+              >
+                <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">
+                  <Phone size={20} className="text-gold" />
+                </div>
+                <div>
+                  <p className="text-xs text-milk/40 uppercase tracking-wider mb-1">Телефон</p>
+                  <p className="text-milk group-hover:text-gold transition-colors">
+                    +7 (982) 488-02-83
+                  </p>
+                </div>
+              </a>
 
+              {/* Кнопка Написать в Telegram */}
+              <a
+                href={telegramLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-[#229ED9] hover:bg-[#1a8ac4] text-white font-medium py-4 px-6 rounded-2xl transition-all duration-300 text-lg shadow-lg shadow-[#229ED9]/30 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <MessageCircle size={24} />
+                Написать в Telegram
+              </a>
+
+              {/* Адрес */}
+              <a
+                href="#location"
+                className="flex items-start gap-4 glass rounded-xl p-5 hover:border-gold/20 transition-all group"
+              >
+                <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">
+                  <MapPin size={20} className="text-gold" />
+                </div>
+                <div>
+                  <p className="text-xs text-milk/40 uppercase tracking-wider mb-1">Адрес</p>
+                  <p className="text-milk group-hover:text-gold transition-colors">
+                    г. Сочи, Адлер, ул. Лазурная Долина, д.198
+                  </p>
+                </div>
+              </a>
+
+              {/* Карта */}
               <div className="glass rounded-xl overflow-hidden aspect-video">
                 <iframe
                   title="Карта — ЖК Арти Парк"
